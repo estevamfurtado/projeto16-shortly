@@ -1,8 +1,9 @@
 import db from '../../db.js';
 import { nanoid } from 'nanoid';
+import sanitizeHtml from 'sanitize-html';
 
 export async function createShortUrl(req, res) {
-    const { url } = req.body;
+    const { url } = sanitizeHtml(req.body);
     const shortUrl = nanoid(8);
     const { userId } = res.locals;
     try {
