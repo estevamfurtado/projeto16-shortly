@@ -30,7 +30,7 @@ export const UserSchema = Joi.object({
 
 
 export const UrlSchema = Joi.object({
-    baseUrl: Joi.string().uri().required().messages({
+    url: Joi.string().uri().required().messages({
         "string.min": "Name must be at least 2 characters long",
         "uri": "Base url must be a valid URL",
         "any.required": "Name is required",

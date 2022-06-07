@@ -4,7 +4,7 @@ import { createSession, createUser } from "./controllers.js";
 
 const router = Router();
 
-router.post('/signup', validateSignInBody, validateCredentials, createSession);
-router.post('/signin', validateUserBody, validateEmailAvailable, createUser, createSession);
+router.post('/signin', validateSignInBody, validateCredentials, createSession);
+router.post('/signup', validateUserBody, validateEmailAvailable, createUser);
 
 export default router;

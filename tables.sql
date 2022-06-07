@@ -1,12 +1,11 @@
--- create database
-CREATE DATABASE IF NOT EXISTS "shortly";
-
-
--- create tables
+DROP TABLE "sessions";
+DROP TABLE "urls";
+DROP TABLE "users";
 
 CREATE TABLE IF NOT EXISTS "users" (
     "id" serial PRIMARY KEY,
-    "username" text NOT NULL,
+    "name" text NOT NULL,
+	"email" text NOT NULL,
     "password" text NOT NULL,
     "createdAt" timestamp NOT NULL DEFAULT now()
 );
@@ -14,7 +13,6 @@ CREATE TABLE IF NOT EXISTS "users" (
 CREATE TABLE IF NOT EXISTS "sessions" (
     "id" serial PRIMARY KEY,
     "userId" integer NOT NULL REFERENCES "users"("id"),
-    "token" text NOT NULL UNIQUE,
     "createdAt" timestamp NOT NULL DEFAULT now(),
     "isValid" boolean NOT NULL DEFAULT true
 );
