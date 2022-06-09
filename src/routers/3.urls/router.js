@@ -1,7 +1,6 @@
 import { Router } from "express";
 import { validateOwnership, validateShortUrl, validateUrl, validateUrlId } from "./middlewares.js";
 import { createShortUrl, deleteUrl, findUrlById, redirectToUrl } from "./controllers.js";
-import { helloWorld } from "../../utils/controllers.js";
 import { validateToken } from "../../utils/middlewares.js";
 
 const router = Router();

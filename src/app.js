@@ -4,6 +4,7 @@ import authRouter from './routers/1.auth/router.js';
 import usersRouter from './routers/2.users/router.js';
 import urlsRouter from './routers/3.urls/router.js';
 import { helloWorld } from "./utils/controllers.js";
+import { getRanking } from "./routers/2.users/controllers.js";
 
 const app = express();
 app.use(cors());
@@ -14,5 +15,6 @@ app.get('/', helloWorld);
 app.use('/', authRouter);
 app.use('/users', usersRouter);
 app.use('/urls', urlsRouter);
+app.get('/ranking', getRanking);
 
 export default app;

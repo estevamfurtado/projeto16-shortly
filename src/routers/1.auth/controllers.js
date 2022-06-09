@@ -1,16 +1,11 @@
-import db from '../../db.js';
-import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import sanitizeHtml from 'sanitize-html';
+import { userRepository } from '../../repositories/user.js';
 
 
 export async function createSession(req, res) {
-    console.log('creating session');
     const userId = res.locals.user.id;
     try {
-        const query = `INSERT INTO sessions ("userId") VALUES ($1) RETURNING *`;
-        const result = await db.query(query, [sanitizeHtml(userId)]);
-        const session = result.rows[0];
+        const session = await userRepository.createSession(userId);
         const secretKey = process.env.JWT_SECRET;
         const token = jwt.sign({ sessionId: session.id }, secretKey);
         res.status(201).send(token);
@@ -19,15 +14,10 @@ export async function createSession(req, res) {
     }
 }
 
-
-
 export async function createUser(req, res) {
     const { name, email, password } = req.body;
-    const encryptedPassword = bcrypt.hashSync(password, 10);
     try {
-        const query = `INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING *`;
-        const result = await db.query(query, [sanitizeHtml(name), sanitizeHtml(email), sanitizeHtml(encryptedPassword)]);
-        res.locals.user = result.rows[0];
+        const newUser = await userRepository.createUser(name, email, password);
         res.sendStatus(201);
     } catch (e) {
         res.status(500).send({ error: e })
