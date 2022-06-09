@@ -27,15 +27,3 @@ export const validateEmailAvailable = async (req, res, next) => {
         res.status(500).send({ error: err });
     }
 };
-
-export const validateSignInBody = (req, res, next) => {
-    const { error } = SignInSchema.validate(req.body);
-    if (error) return res.status(422).send({ error: error.details[0].message });
-    next();
-};
-
-export const validateUserBody = (req, res, next) => {
-    const { error } = UserSchema.validate(req.body);
-    if (error) return res.status(422).send({ error: error.details[0].message });
-    next();
-};

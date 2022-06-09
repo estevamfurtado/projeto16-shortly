@@ -2,12 +2,6 @@ import { urlRepository } from '../../repositories/urls.js';
 import { UrlSchema } from '../../utils/schemas.js';
 
 
-export async function validateUrl(req, res, next) {
-    const { error } = UrlSchema.validate(req.body);
-    if (error) return res.status(422).send({ error: error.details[0].message });
-    next();
-}
-
 export async function validateUrlId(req, res, next) {
     const { urlId } = req.params;
 

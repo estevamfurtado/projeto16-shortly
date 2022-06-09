@@ -44,15 +44,15 @@ async function getVisitCount(id) {
 
 async function getRanking() {
     const query = `
-        SELECT 
-            us.id, us.name, 
-            COUNT(ur.id) AS "linksCount",
-            COALESCE(SUM(ur.visits),0) AS "visitCount"
-        FROM users us
-        LEFT JOIN urls ur ON ur."userId" = us.id
-        GROUP BY us.id
-        ORDER BY "visitCount" DESC
-        LIMIT 10;
+    SELECT 
+        us.id, us.name, 
+        COUNT(CASE WHEN ur."isActive" = true THEN 1 END) AS "linksCount",
+        COALESCE(SUM(CASE WHEN ur."isActive" = true THEN ur.visits END),0) AS "visitCount"
+    FROM users us
+    LEFT JOIN urls ur ON ur."userId" = us.id
+    GROUP BY us.id
+    ORDER BY "linksCount" DESC, "visitCount" DESC, us."createdAt" DESC
+    LIMIT 10;
     `
     const response = await db.query(query, []);
     return response.rows;

@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { userRepository } from '../repositories/user.js';
+import { SignInSchema, UserSchema, UrlSchema } from './schemas.js';
 
 export async function validateToken(req, res, next) {
 
@@ -27,3 +28,19 @@ export async function validateToken(req, res, next) {
         res.status(500).send({ error: err });
     }
 };
+
+export async function validateSchema(req, res, next) {
+    let schema = null;
+    const path = req.originalUrl;
+    if (path.includes("/signin")) {
+        schema = SignInSchema;
+    } else if (path.includes("/signup")) {
+        schema = UserSchema;
+    } else if (path.includes("/urls/shorten")) {
+        schema = UrlSchema;
+    }
+
+    const { error } = schema.validate(req.body);
+    if (error) return res.status(422).send({ error: error.details[0].message });
+    next();
+}
